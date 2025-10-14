@@ -1,0 +1,25 @@
+.private-feedback-toggle {
+    margin-top: 1em;
+}
+.private-feedback-form {
+    margin-top: 2em;
+    padding: 1em;
+    background: #f9f9f9;
+    border-radius: 8px;
+    display: none;
+}
+.private-feedback-form textarea {
+    width: 100%;
+    min-height: 120px;
+    margin-bottom: 0.5em;
+}
+.private-feedback-form button {
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px; cursor: pointer;
+}
+.private-feedback-form button:hover {
+    background: #005f8d;
+}
