@@ -201,7 +201,7 @@ class Private_Post_Feedback {
         global $wpdb;
         
         $sql = sprintf("
-            CREATE TABLE %s" . $this->get_table_name() . " (
+            CREATE TABLE %s (
                 id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 post_id bigint(20) unsigned NOT NULL,
                 user_ip varchar(100) DEFAULT '' NOT NULL,
