@@ -15,10 +15,20 @@ if (! defined( 'WP_UNINSTALL_PLUGIN' )) {
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'private-post-feedback.php';
 
 // Remove options introduced by the plugin.
-delete_option(Private_Post_Feedback::OPTION_POST_TYPES);
+delete_option(PrivatePostFeedback::OPTION_POST_TYPES_FEEDBACK);
+delete_option(PrivatePostFeedback::OPTION_POST_TYPES_RATING);
+delete_option(PrivatePostFeedback::OPTION_MAX_RATING);
+
+// Remove post meta added by the plugin.
+$meta_keys = [PrivatePostFeedback::META_KEY_COUNT, PrivatePostFeedback::META_KEY_SUM];
+$placeholders = implode(',', array_fill(0, count($meta_keys), '%s'));
+$wpdb->query($wpdb->prepare(
+    "DELETE FROM {$wpdb->postmeta} WHERE meta_key IN ({$placeholders})",
+    ...$meta_keys
+));
 
 // Remove table where the comments are stored.
-$table_name = (new Private_Post_Feedback())->get_table_name();
+$table_name = (new PrivatePostFeedback())->get_table_name();
 $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
 
 // Remove this directory.
