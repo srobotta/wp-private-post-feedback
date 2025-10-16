@@ -21,3 +21,13 @@ an email notification about a new feedback.
 
 Next to the "Leave feedback" link a list of stars for a rating appear. By clicking one of
 the stars, a rating of that post is submitted and collected in the post meta data.
+
+## Changelog
+
+### 1.0
+
+Initial release after proof of concept was built.
+
+* Allow a star rating for selected post types.
+* Allow a feedback form for selected post types.
+* Rating granularity is customizable.
