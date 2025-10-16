@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Private Post Feedback 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/private-post-"
 "feedback\n"
-"POT-Creation-Date: 2025-10-14 17:02+0200\n"
-"PO-Revision-Date: 2025-10-14 17:12+0200\n"
+"POT-Creation-Date: 2025-10-16 10:27+0200\n"
+"PO-Revision-Date: 2025-10-16 10:47+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -21,42 +21,58 @@ msgstr ""
 "__;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: private-post-feedback.php:75 private-post-feedback.php:105
+#: private-post-feedback.php:147 private-post-feedback.php:180
 msgid "Private Post Feedback Settings"
 msgstr "Private Post Feedback Einstellungen"
 
-#: private-post-feedback.php:76
+#: private-post-feedback.php:148
 msgid "Private Post Feedback"
 msgstr "Private Post Feedback"
 
-#: private-post-feedback.php:108
+#: private-post-feedback.php:186
 msgid ""
 "Check all post types where the Private Post Feedback form should appear:"
-msgstr ""
-"Wähle alle Post Typen aus, wo das Feedbackformular erscheinen soll:"
+msgstr "Wähle alle Posttypen aus, wo das Feedbackformular erscheinen soll:"
 
-#: private-post-feedback.php:146
+#: private-post-feedback.php:191
+msgid "Check all post types where the star rating should appear:"
+msgstr "Wähle alle Posttypen aus, wo die Sternebewertung erscheinen soll:"
+
+#: private-post-feedback.php:193
+msgid "Number of stars for rating:"
+msgstr "Anzahl der Sterne für die Bewertung:"
+
+#: private-post-feedback.php:280
 msgid "Thank you for your feedback!"
 msgstr "Danke für das Feedback!"
 
-#: private-post-feedback.php:151
+#: private-post-feedback.php:285
 msgid "Leave Feedback"
 msgstr "Feedback senden"
 
-#: private-post-feedback.php:155
+#: private-post-feedback.php:289
 msgid "Your private feedback for the author:"
 msgstr "Persönliches Feedback an den Autor:"
 
-#: private-post-feedback.php:159
+#: private-post-feedback.php:293
 msgid "Send Feedback"
 msgstr "Feedback senden"
 
-#: private-post-feedback.php:189
+#: private-post-feedback.php:321
+#, php-format
+msgid "Average rating: %.2f (%d ratings)"
+msgstr "Bewertung: %.2f (%d Stimmen)"
+
+#: private-post-feedback.php:326
+msgid "No ratings yet"
+msgstr "noch keine Bewertungen"
+
+#: private-post-feedback.php:360
 #, php-format
 msgid "New private feedback on: %s"
 msgstr "Neues Feedback am: %s"
 
-#: private-post-feedback.php:191
+#: private-post-feedback.php:362
 #, php-format
 msgid ""
 "You have received new private feedback on your post \"%s\":\n"
@@ -71,22 +87,22 @@ msgstr ""
 "\r\n"
 "Gesendet von: %s"
 
-#: private-post-feedback.php:230
+#: private-post-feedback.php:489
 msgid "Private Feedback"
 msgstr "Privates Feedback"
 
-#: private-post-feedback.php:231 private-post-feedback.php:252
+#: private-post-feedback.php:490 private-post-feedback.php:514
 msgid "Feedback"
 msgstr "Feedback"
 
-#: private-post-feedback.php:245
+#: private-post-feedback.php:507
 msgid "Private Feedback Entries"
 msgstr "Private Feedbackeinträge"
 
-#: private-post-feedback.php:253
+#: private-post-feedback.php:515
 msgid "User IP"
 msgstr "Besucher IP"
 
-#: private-post-feedback.php:271
+#: private-post-feedback.php:533
 msgid "No feedback entries found."
 msgstr "Keine Feedbackeinträge vorhanden."

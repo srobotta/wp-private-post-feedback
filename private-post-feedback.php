@@ -173,7 +173,7 @@ class PrivatePostFeedback {
                     $this->rating_max = $max; // Update cached value
                 }
             }
-            echo '<div class="updated"><p>' . __('Settings saved') . '</p></div>';
+            echo '<div class="updated"><p>' . __('Changes saved') . '</p></div>';
         }
         ?>
         <div class="wrap">
@@ -183,12 +183,12 @@ class PrivatePostFeedback {
                 <?php echo $this->get_checkboxes_html(
                     self::OPTION_POST_TYPES_FEEDBACK,
                     $existing_types,
-                    esc_html('Check all post types where the Private Post Feedback form should appear:', self::SLUG));
+                    esc_html(__('Check all post types where the Private Post Feedback form should appear:', self::SLUG)));
                 ?>
                 <?php echo $this->get_checkboxes_html(
                     self::OPTION_POST_TYPES_RATING,
                     $existing_types,
-                    esc_html('Check all post types where the star rating should appear:', self::SLUG));
+                    esc_html(__('Check all post types where the star rating should appear:', self::SLUG)));
                 ?>
                 <p><label for="private_feedback_max_rating"><?php esc_html_e('Number of stars for rating:', self::SLUG); ?></label>
                 <input type="number" id="private_feedback_max_rating" name="<?php self::OPTION_MAX_RATING ?>" value="<?php echo esc_attr($this->get_rating_max()); ?>" min="1" /></p>
