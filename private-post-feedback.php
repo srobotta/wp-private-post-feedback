@@ -183,12 +183,12 @@ class PrivatePostFeedback {
                 <?php echo $this->get_checkboxes_html(
                     self::OPTION_POST_TYPES_FEEDBACK,
                     $existing_types,
-                    esc_html(__('Check all post types where the Private Post Feedback form should appear:', self::SLUG)));
+                    __('Check all post types where the Private Post Feedback form should appear:', self::SLUG));
                 ?>
                 <?php echo $this->get_checkboxes_html(
                     self::OPTION_POST_TYPES_RATING,
                     $existing_types,
-                    esc_html(__('Check all post types where the star rating should appear:', self::SLUG)));
+                    __('Check all post types where the star rating should appear:', self::SLUG));
                 ?>
                 <p><label for="private_feedback_max_rating"><?php esc_html_e('Number of stars for rating:', self::SLUG); ?></label>
                 <input type="number" id="private_feedback_max_rating" name="<?php self::OPTION_MAX_RATING ?>" value="<?php echo esc_attr($this->get_rating_max()); ?>" min="1" /></p>
@@ -199,6 +199,17 @@ class PrivatePostFeedback {
     }
 
     /**
+     * Get the label of a post type.
+     * @param string $post_type The post type name.
+     * @param string $context The context for the label (default is 'name').
+     * @return string The label of the post type or the post type name if not found.
+     */
+    protected function get_post_type_label(string $post_type, string $context = 'name'): string {
+        $obj = get_post_type_object($post_type);
+        return $obj && isset($obj->labels->$context) ? $obj->labels->$context : $post_type;
+    }
+
+    /**
      * Get the checkboxes HTML for selecting post types.
      * @param string $type Option name to fetch post types from a settings option.
      * @param array $existing_types Array of existing post types (key => label).
@@ -206,13 +217,13 @@ class PrivatePostFeedback {
      * @return string HTML string for the checkboxes
      */
     protected function get_checkboxes_html(string $type, array $existing_types, string $header): string {
-        $html = '<p>' . $header . '</p><p>';
-        foreach ($existing_types as $key => $label) {
+        $html = '<p>' . esc_html($header) . '</p><p>';
+        foreach ($existing_types as $key) {
             $id = $type . '_' . $key;
             $checked = checked(in_array($key, $this->get_enabled_post_types($type)), true, false);
             $html .= sprintf(
                 '<div><input type="checkbox" id="%1$s" name="%2$s[%3$s]" value="1"%4$s /><label for="%1$s">%5$s</label></div>',
-                $id, $type, esc_attr($key), $checked, esc_html($label)
+                $id, $type, esc_attr($key), $checked, esc_html($this->get_post_type_label($key))
             );
         }
         $html .= '</p>';
