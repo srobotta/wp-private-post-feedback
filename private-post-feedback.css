@@ -24,6 +24,8 @@
     background: #005f8d;
 }
 .private-feedback-stars {
+    display: inline-flex;
+    gap: 4px;
     font-size: 2rem;
     cursor: pointer;
 }
@@ -32,10 +34,15 @@
 }
 .private-feedback-star {
     color: #ccc;
-    transition: color 0.2s, transform 0.2s;
+    position: relative;
 }
-.private-feedback-star.hovered,
-.private-feedback-star.selected {
+.private-feedback-star::before {
+    content: '★';
+    position: absolute;
+    width: var(--fill, 0%);
     color: gold;
-    transform: scale(1.2);
- }
+    overflow: hidden;
+}
+.private-feedback-star.hovered::before {
+    color: orange;
+}

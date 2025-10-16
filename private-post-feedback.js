@@ -5,43 +5,53 @@
             e.preventDefault();
             $('.private-feedback-form').toggle();
         });
+
         const stars = document.querySelectorAll('.private-feedback-star');
-        let currentRating = 0;
+        const container = document.querySelector('.private-feedback-stars');
+        let existingRating = parseFloat(PrivateFeedbackRating.existing_rating) || 0;
+        let currentRating = existingRating;
+
+        setFractionalRating(existingRating);
 
         stars.forEach(star => {
+            // Hover
             star.addEventListener('mouseover', () => {
-                resetHover();
-                star.classList.add('hovered');
-                highlightUpTo(star.dataset.value);
+                highlightUpTo(parseInt(star.dataset.value));
             });
 
-            star.addEventListener('mouseout', resetHover);
-
+            // Click
             star.addEventListener('click', () => {
-                currentRating = star.dataset.value;
-                setRating(currentRating);
-                sendRating(currentRating);
+                existingRating = parseInt(star.dataset.value);
+                currentRating = existingRating;
+                setFractionalRating(existingRating);
+                sendRating(existingRating);
             });
         });
 
+        // Reset to saved rating when leaving all stars
+        container.addEventListener('mouseleave', () => {
+            setFractionalRating(existingRating);
+        });
+
+        function setFractionalRating(rating) {
+            stars.forEach(star => {
+                const value = parseInt(star.dataset.value);
+                let fill = 0;
+                if (rating >= value) fill = 100;
+                else if (rating + 1 > value) fill = (rating - (value - 1)) * 100;
+                star.style.setProperty('--fill', `${fill}%`);
+            });
+        }
+
         function highlightUpTo(value) {
-            stars.forEach(s => {
-                if (s.dataset.value <= value) s.classList.add('hovered');
+            stars.forEach(star => {
+                const fill = star.dataset.value <= value ? 100 : 0;
+                star.style.setProperty('--fill', `${fill}%`);
             });
         }
 
-        function resetHover() {
-            stars.forEach(s => s.classList.remove('hovered'));
-        }
-
-        function setRating(value) {
-            stars.forEach(s => {
-                s.classList.toggle('selected', s.dataset.value <= value);
-            });
+        function sendRating(value) {
             document.getElementById('private_feedback_rate').value = value;
-        }
-
-        function sendRating() {
             const form = $('form.private-feedback-rating-form')[0];
             const formData = new FormData(form);
             fetch(PrivateFeedbackRating.ajax_url, {

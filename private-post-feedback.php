@@ -257,6 +257,7 @@ class PrivatePostFeedback {
         wp_enqueue_script('private-feedback-js', plugins_url(self::SLUG . '/private-post-feedback.js'), ['jquery']);
         wp_localize_script('private-feedback-js', 'PrivateFeedbackRating', [
             'ajax_url' => plugins_url(self::SLUG .'/ajax-rating.php'),
+            'existing_rating' => $this->get_current_rating(get_the_ID())['average'],
         ]);
     }
 
