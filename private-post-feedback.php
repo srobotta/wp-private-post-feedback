@@ -548,7 +548,9 @@ class PrivatePostFeedback {
                                             admin_url('admin-post.php?action=delete_private_feedback&id=' . $row->id),
                                             'delete_private_feedback_' . $row->id
                                         )
-                                    ); ?>" class="button button-danger"><?php _e('Delete'); ?></a>
+                                    ); ?>"
+                                        class="button"
+                                        onclick="return confirm('<?php esc_attr_e('Are you sure you want to delete this feedback?', self::SLUG); ?>');"><?php _e('Delete'); ?></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

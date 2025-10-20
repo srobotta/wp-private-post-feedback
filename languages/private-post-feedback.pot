@@ -101,3 +101,7 @@ msgstr ""
 #: private-post-feedback.php:546
 msgid "No feedback entries found."
 msgstr ""
+
+#: private-post-feedback.php:553
+msgid "Are you sure you want to delete this feedback?"
+msgstr ""
