@@ -9,7 +9,6 @@
         const stars = document.querySelectorAll('.private-feedback-star');
         const container = document.querySelector('.private-feedback-stars');
         let existingRating = parseFloat(PrivateFeedbackRating.existing_rating) || 0;
-        let currentRating = existingRating;
 
         setFractionalRating(existingRating);
 
@@ -22,7 +21,6 @@
             // Click
             star.addEventListener('click', () => {
                 existingRating = parseInt(star.dataset.value);
-                currentRating = existingRating;
                 setFractionalRating(existingRating);
                 sendRating(existingRating);
             });
