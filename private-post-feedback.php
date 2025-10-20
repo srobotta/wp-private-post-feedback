@@ -193,7 +193,7 @@ class PrivatePostFeedback {
                     __('Check all post types where the star rating should appear:', self::SLUG));
                 ?>
                 <p><label for="private_feedback_max_rating"><?php esc_html_e('Number of stars for rating:', self::SLUG); ?></label>
-                <input type="number" id="private_feedback_max_rating" name="<?php self::OPTION_MAX_RATING ?>" value="<?php echo esc_attr($this->get_rating_max()); ?>" min="1" /></p>
+                <input type="number" id="private_feedback_max_rating" name="<?php echo(self::OPTION_MAX_RATING); ?>" value="<?php echo($this->get_rating_max()); ?>" min="1" size="2"/></p>
                 <p><input type="submit" class="button-primary" value="<?php echo esc_attr(__('Save Changes')); ?>" /></p>
             </form>
         </div>
