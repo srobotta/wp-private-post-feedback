@@ -5,10 +5,29 @@
             e.preventDefault();
             $('.private-feedback-form').toggle();
         });
+        $('.private-feedback-form').on('submit', function(e) {
+            e.preventDefault();
+            const form = $(this);
+            const formData = new FormData(form[0]);
+            fetch(PrivateFeedback.ajax_url + '?f=feedback', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(res => res.json())
+            .then((data) => {
+                if (data.success) {
+                    $('.private-feedback-toggle').remove();
+                    $('.private-feedback-form').replaceWith($('<p/>').text(data.data.message));
+                } else {
+                    console.error('Error sending feedback:', data);
+                }
+            })
+            .catch(err => console.error('Error:', err));
+        });
 
         const stars = document.querySelectorAll('.private-feedback-star');
         const container = document.querySelector('.private-feedback-stars');
-        let existingRating = parseFloat(PrivateFeedbackRating.existing_rating) || 0;
+        let existingRating = parseFloat(PrivateFeedback.existing_rating) || 0;
         let ratingSend = false;
 
         setFractionalRating(existingRating);
@@ -56,7 +75,7 @@
             document.getElementById('private_feedback_rate').value = value;
             const form = $('form.private-feedback-rating-form')[0];
             const formData = new FormData(form);
-            fetch(PrivateFeedbackRating.ajax_url, {
+            fetch(PrivateFeedback.ajax_url + '?f=rate', {
                 method: 'POST',
                 body: formData,
             })
@@ -64,7 +83,7 @@
             .then((data) => {
                 if (data.success) {
                     console.log('Rating saved:', data);
-                    $('.private-feedback-rating-text').text(PrivateFeedbackRating.rating_saved);
+                    $('.private-feedback-rating-text').text(data.data.message);
                     ratingSend = true;
                 } else {
                     console.error('Error saving rating:', data);

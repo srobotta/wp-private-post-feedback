@@ -94,7 +94,6 @@ class PrivatePostFeedback {
         add_action('plugins_loaded', [$this, 'load_textdomain']);
         add_filter('the_content', [$this, 'append_feedback_form']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
-        add_action('wp', [$this, 'handle_form_submission']);
         add_shortcode('private_post_feedback_form', [$this, 'feedback_form_html']);
         add_shortcode('private_post_feedback_rating', [$this, 'rating_form_html']);
         add_action('admin_menu', [$this, 'register_admin_menu']);
@@ -102,8 +101,10 @@ class PrivatePostFeedback {
         register_activation_hook(__FILE__, [$this, 'activation_hook']);
         add_action('admin_menu', [$this, 'add_settings_page']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'settings_link']);
-        add_action('wp_ajax_contact_form_submit', [$this, 'handle_rating_submission']);
-        add_action('wp_ajax_nopriv_contact_form_submit', [$this, 'handle_rating_submission']);
+        add_action('wp_ajax_private_post_rate', [$this, 'handle_rating_submission']);
+        add_action('wp_ajax_nopriv_private_post_rate', [$this, 'handle_rating_submission']);
+        add_action('wp_ajax_private_post_feedback', [$this, 'handle_feedback_submission']);
+        add_action('wp_ajax_nopriv_private_post_feedback', [$this, 'handle_feedback_submission']);
     }
 
     /**
@@ -255,10 +256,9 @@ class PrivatePostFeedback {
     public function enqueue_assets() {
         wp_enqueue_style('private-feedback-css', plugins_url(self::SLUG . '/private-post-feedback.css'));
         wp_enqueue_script('private-feedback-js', plugins_url(self::SLUG . '/private-post-feedback.js'), ['jquery']);
-        wp_localize_script('private-feedback-js', 'PrivateFeedbackRating', [
+        wp_localize_script('private-feedback-js', 'PrivateFeedback', [
             'ajax_url' => plugins_url(self::SLUG .'/ajax-rating.php'),
             'existing_rating' => $this->get_current_rating(get_the_ID())['average'],
-            'rating_saved' => __('Thank you for your rating!', self::SLUG),
         ]);
     }
 
@@ -289,10 +289,6 @@ class PrivatePostFeedback {
      * @return string HTML string for the feedback form
      */
     public function feedback_form_html(): string {
-        if (isset($_POST['private_feedback_nonce']) && wp_verify_nonce($_POST['private_feedback_nonce'], 'send_private_feedback')) {
-            return '<p>' . esc_html__('Thank you for your feedback!', self::SLUG) . '</p>';
-        }
-
         ob_start(); ?>
         <a href="#private_feedback_form" class="private-feedback-toggle">
             <?php _e('Leave Feedback', self::SLUG); ?>
@@ -301,8 +297,9 @@ class PrivatePostFeedback {
             <label for="private_feedback_message">
                 <?php _e('Your private feedback for the author:', self::SLUG); ?>
             </label><br>
-            <textarea id="private_feedback_message" name="private_feedback_message" required></textarea><br>
+            <textarea id="private_feedback_message" name="private_feedback_message" required></textarea><br/>
             <?php wp_nonce_field('send_private_feedback', 'private_feedback_nonce'); ?>
+            <input type="hidden" name="post_id" value="<?php echo get_the_ID(); ?>" />
             <button type="submit"><?php _e('Send Feedback', self::SLUG); ?></button>
         </form>
         <?php
@@ -347,15 +344,19 @@ class PrivatePostFeedback {
     /**
      * Handle form submission when a visitor submits feedback.
      */
-    public function handle_form_submission() {
-        if (!isset($_POST['private_feedback_nonce'])) return;
-        if (!wp_verify_nonce($_POST['private_feedback_nonce'], 'send_private_feedback')) return;
-        if (empty($_POST['private_feedback_message'])) return;
+    public function handle_feedback_submission(): bool {
+        if (!isset($_POST['private_feedback_nonce'])) return false;
+        if (!wp_verify_nonce($_POST['private_feedback_nonce'], 'send_private_feedback')) return false;
+        if (empty($_POST['private_feedback_message'])) return false;
 
-        global $post, $wpdb;
+        $post = get_post(intval($_POST['post_id']));
+        if (empty($post) ||
+            !\in_array($post->post_type, $this->get_enabled_post_types(self::OPTION_POST_TYPES_FEEDBACK))
+        ) {
+            return false;
+        }
 
-        if (!isset($post->ID)) return;
-        if (!\in_array($post->post_type, $this->get_enabled_post_types(self::OPTION_POST_TYPES_FEEDBACK))) return;
+        global $wpdb;
 
         $message = sanitize_textarea_field($_POST['private_feedback_message']);
         $author_email = get_the_author_meta('user_email', $post->post_author);
@@ -378,6 +379,7 @@ class PrivatePostFeedback {
             get_permalink($post->ID)
         );
         wp_mail([$author_email, $admin_email], $subject, $body);
+        return true;
     }
 
     /**
@@ -385,7 +387,7 @@ class PrivatePostFeedback {
      * @return bool True if the rating was successfully processed, false otherwise.
      */
     public function handle_rating_submission(): bool {
-        // Similar to handle_form_submission, implement rating storage and notification here
+        // Similar to handle_feedback_submission, implement rating storage and notification here
         if (!isset($_POST['private_feedback_rating_nonce']) ||
             !wp_verify_nonce($_POST['private_feedback_rating_nonce'], 'send_private_feedback_rating') ||
             empty($_POST['post_id']) ||
