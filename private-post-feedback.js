@@ -9,6 +9,7 @@
         const stars = document.querySelectorAll('.private-feedback-star');
         const container = document.querySelector('.private-feedback-stars');
         let existingRating = parseFloat(PrivateFeedbackRating.existing_rating) || 0;
+        let ratingSend = false;
 
         setFractionalRating(existingRating);
 
@@ -32,6 +33,7 @@
         });
 
         function setFractionalRating(rating) {
+            if (ratingSend) return;
             stars.forEach(star => {
                 const value = parseInt(star.dataset.value);
                 let fill = 0;
@@ -42,6 +44,7 @@
         }
 
         function highlightUpTo(value) {
+            if (ratingSend) return;
             stars.forEach(star => {
                 const fill = star.dataset.value <= value ? 100 : 0;
                 star.style.setProperty('--fill', `${fill}%`);
@@ -49,6 +52,7 @@
         }
 
         function sendRating(value) {
+            if (ratingSend) return;
             document.getElementById('private_feedback_rate').value = value;
             const form = $('form.private-feedback-rating-form')[0];
             const formData = new FormData(form);
@@ -57,7 +61,15 @@
                 body: formData,
             })
             .then(res => res.json())
-            .then(data => console.log('Rating saved:', data))
+            .then((data) => {
+                if (data.success) {
+                    console.log('Rating saved:', data);
+                    $('.private-feedback-rating-text').text(PrivateFeedbackRating.rating_saved);
+                    ratingSend = true;
+                } else {
+                    console.error('Error saving rating:', data);
+                }
+            })
             .catch(err => console.error('Error:', err));
         }
     });

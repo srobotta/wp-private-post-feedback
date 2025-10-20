@@ -258,6 +258,7 @@ class PrivatePostFeedback {
         wp_localize_script('private-feedback-js', 'PrivateFeedbackRating', [
             'ajax_url' => plugins_url(self::SLUG .'/ajax-rating.php'),
             'existing_rating' => $this->get_current_rating(get_the_ID())['average'],
+            'rating_saved' => __('Thank you for your rating!', self::SLUG),
         ]);
     }
 

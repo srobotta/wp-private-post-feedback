@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Private Post Feedback 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/private-post-feedback\n"
-"POT-Creation-Date: 2025-10-16 10:27+0200\n"
+"POT-Creation-Date: 2025-10-20 16:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,37 +38,41 @@ msgstr ""
 msgid "Number of stars for rating:"
 msgstr ""
 
-#: private-post-feedback.php:280
-msgid "Thank you for your feedback!"
-msgstr ""
-
-#: private-post-feedback.php:285
-msgid "Leave Feedback"
-msgstr ""
-
-#: private-post-feedback.php:289
-msgid "Your private feedback for the author:"
+#: private-post-feedback.php:261
+msgid "Thank you for your rating!"
 msgstr ""
 
 #: private-post-feedback.php:293
+msgid "Thank you for your feedback!"
+msgstr ""
+
+#: private-post-feedback.php:298
+msgid "Leave Feedback"
+msgstr ""
+
+#: private-post-feedback.php:302
+msgid "Your private feedback for the author:"
+msgstr ""
+
+#: private-post-feedback.php:306
 msgid "Send Feedback"
 msgstr ""
 
-#: private-post-feedback.php:321
+#: private-post-feedback.php:334
 #, php-format
 msgid "Average rating: %.2f (%d ratings)"
 msgstr ""
 
-#: private-post-feedback.php:326
+#: private-post-feedback.php:339
 msgid "No ratings yet"
 msgstr ""
 
-#: private-post-feedback.php:360
+#: private-post-feedback.php:373
 #, php-format
 msgid "New private feedback on: %s"
 msgstr ""
 
-#: private-post-feedback.php:362
+#: private-post-feedback.php:375
 #, php-format
 msgid ""
 "You have received new private feedback on your post \"%s\":\n"
@@ -78,22 +82,22 @@ msgid ""
 "Sent from: %s"
 msgstr ""
 
-#: private-post-feedback.php:489
+#: private-post-feedback.php:502
 msgid "Private Feedback"
 msgstr ""
 
-#: private-post-feedback.php:490 private-post-feedback.php:514
+#: private-post-feedback.php:503 private-post-feedback.php:527
 msgid "Feedback"
 msgstr ""
 
-#: private-post-feedback.php:507
+#: private-post-feedback.php:520
 msgid "Private Feedback Entries"
 msgstr ""
 
-#: private-post-feedback.php:515
+#: private-post-feedback.php:528
 msgid "User IP"
 msgstr ""
 
-#: private-post-feedback.php:533
+#: private-post-feedback.php:546
 msgid "No feedback entries found."
 msgstr ""
