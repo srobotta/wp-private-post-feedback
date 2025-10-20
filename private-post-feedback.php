@@ -175,7 +175,7 @@ class PrivatePostFeedback {
                     $this->rating_max = $max; // Update cached value
                 }
             }
-            echo '<div class="updated"><p>' . __('Changes saved') . '</p></div>';
+            echo '<div class="updated"><p>' . __('Settings saved.') . '</p></div>';
         }
         ?>
         <div class="wrap">
