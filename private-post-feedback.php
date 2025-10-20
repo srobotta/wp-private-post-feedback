@@ -105,6 +105,7 @@ class PrivatePostFeedback {
         add_action('wp_ajax_nopriv_private_post_rate', [$this, 'handle_rating_submission']);
         add_action('wp_ajax_private_post_feedback', [$this, 'handle_feedback_submission']);
         add_action('wp_ajax_nopriv_private_post_feedback', [$this, 'handle_feedback_submission']);
+        add_action('admin_post_delete_private_feedback', [$this, 'handle_delete_feedback']);
     }
 
     /**
@@ -528,6 +529,7 @@ class PrivatePostFeedback {
                             <th><?php _e('Post'); ?></th>
                             <th><?php _e('Feedback', self::SLUG); ?></th>
                             <th><?php _e('User IP', self::SLUG); ?></th>
+                            <th><?php _e('Actions'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -540,6 +542,14 @@ class PrivatePostFeedback {
                                 <td><a href="<?php echo esc_url($post_link); ?>" target="_blank"><?php echo esc_html($post_title); ?></a></td>
                                 <td><?php echo esc_html($row->message); ?></td>
                                 <td><?php echo esc_html($row->user_ip); ?></td>
+                                <td>
+                                    <a href="<?php echo esc_url(
+                                        wp_nonce_url(
+                                            admin_url('admin-post.php?action=delete_private_feedback&id=' . $row->id),
+                                            'delete_private_feedback_' . $row->id
+                                        )
+                                    ); ?>" class="button button-danger"><?php _e('Delete'); ?></a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -549,6 +559,20 @@ class PrivatePostFeedback {
             <?php endif; ?>
         </div>
         <?php
+    }
+
+    /**
+     * Handle deletion of a feedback entry in the admin page.
+     */
+    public function handle_delete_feedback() {
+        if (!current_user_can('manage_options') || !isset($_GET['id']) || !check_admin_referer('delete_private_feedback_' . $_GET['id'])) {
+            wp_die(__('Unauthorized'), '', 403);
+        }
+        global $wpdb;
+        $id = intval($_GET['id']);
+        $wpdb->delete($this->get_table_name(), ['id' => $id]);
+        wp_redirect(admin_url('admin.php?page=' . self::SLUG));
+        exit();
     }
 }
 
