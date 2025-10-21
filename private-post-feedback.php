@@ -70,6 +70,18 @@ class PrivatePostFeedback {
     public const OPTION_POST_TYPES_RATING = 'private_post_rating_post_types';
 
     /**
+     * Option name for storing email notification settings for authors.
+     * @var string
+     */
+    public const OPTION_NOTIFY_AUTHOR = 'private_post_feedback_notify_author';
+
+    /**
+     * Option name for storing email notification settings for admins.
+     * @var string
+     */
+    public const OPTION_NOTIFY_ADMIN = 'private_post_feedback_notify_admin';
+
+    /**
      * Option name for storing the maximum rating value.
      * @var string
      */
@@ -154,7 +166,11 @@ class PrivatePostFeedback {
         );
     }
 
-    // Add settings link on Plugins page
+    /**
+     * Add settings link on Plugins page.
+     * @param string[] $links Existing plugin action links.
+     * @return string[] Modified plugin action links.
+     */
     public function settings_link($links) {
         $url = admin_url('options-general.php?page=private_post_feedback_settings');
         $settings_link = '<a href="' . esc_url($url) . '">' . __('Settings') . '</a>';
@@ -162,7 +178,9 @@ class PrivatePostFeedback {
         return $links;
     }
 
-    // Render settings page
+    /**
+     * Render settings page.
+     */
     public function render_settings_page() {
         $existing_types = get_post_types(['public' => true]);
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('private_post_feedback_settings_save')) {
@@ -174,6 +192,16 @@ class PrivatePostFeedback {
                     update_option(self::OPTION_MAX_RATING, $max);
                     $this->rating_max = $max; // Update cached value
                 }
+            }
+            if (isset($_POST[self::OPTION_NOTIFY_AUTHOR])) {
+                update_option(self::OPTION_NOTIFY_AUTHOR, '1');
+            } else {
+                delete_option(self::OPTION_NOTIFY_AUTHOR);
+            }
+            if (isset($_POST[self::OPTION_NOTIFY_ADMIN])) {
+                update_option(self::OPTION_NOTIFY_ADMIN, '1');
+            } else {
+                delete_option(self::OPTION_NOTIFY_ADMIN);
             }
             echo '<div class="updated"><p>' . __('Settings saved.') . '</p></div>';
         }
@@ -187,6 +215,16 @@ class PrivatePostFeedback {
                     $existing_types,
                     __('Check all post types where the Private Post Feedback form should appear:', self::SLUG));
                 ?>
+                <p>
+                    <input type="checkbox" id="<?php echo(self::OPTION_NOTIFY_AUTHOR); ?>" name="<?php echo(self::OPTION_NOTIFY_AUTHOR); ?>" value="1"
+                    <?php checked(get_option(self::OPTION_NOTIFY_AUTHOR), '1'); ?>
+                    /><label for="<?php echo(self::OPTION_NOTIFY_AUTHOR); ?>"><?php esc_html_e('Notify post author by email when new feedback is received.', self::SLUG); ?></label>
+                </p>
+                <p>
+                    <input type="checkbox" id="<?php echo(self::OPTION_NOTIFY_ADMIN); ?>" name="<?php echo(self::OPTION_NOTIFY_ADMIN); ?>" value="1"
+                    <?php checked(get_option(self::OPTION_NOTIFY_ADMIN), '1'); ?>
+                    /><label for="<?php echo(self::OPTION_NOTIFY_ADMIN); ?>"><?php esc_html_e('Notify site admin by email when new feedback is received.', self::SLUG); ?></label>
+                </p>
                 <?php echo $this->get_checkboxes_html(
                     self::OPTION_POST_TYPES_RATING,
                     $existing_types,
@@ -344,6 +382,7 @@ class PrivatePostFeedback {
 
     /**
      * Handle form submission when a visitor submits feedback.
+     * @return bool True if the feedback was successfully processed, false otherwise.
      */
     public function handle_feedback_submission(): bool {
         if (!isset($_POST['private_feedback_nonce'])) return false;
@@ -360,9 +399,6 @@ class PrivatePostFeedback {
         global $wpdb;
 
         $message = sanitize_textarea_field($_POST['private_feedback_message']);
-        $author_email = get_the_author_meta('user_email', $post->post_author);
-        $admin_email  = get_option('admin_email');
-
         // Store feedback in DB
         $wpdb->insert($this->get_table_name(), [
             'post_id'     => $post->ID,
@@ -370,6 +406,19 @@ class PrivatePostFeedback {
             'message'     => $message,
             'created_at'  => current_time('mysql'),
         ]);
+
+        // Send notification email.
+        $recipients = [];
+        if (get_option(self::OPTION_NOTIFY_AUTHOR) === '1') {
+            $recipients[] = get_the_author_meta('user_email', $post->post_author);
+        }
+        if (get_option(self::OPTION_NOTIFY_ADMIN) === '1') {
+            $recipients[] = get_option('admin_email');
+        }
+        $recipients = array_unique(array_filter($recipients, fn($email) => !empty(trim($email))));
+        if (empty($recipients)) {
+            return true; // No recipients to notify
+        }
 
         // Send email to author and admin
         $subject = sprintf(__('New private feedback on: %s', self::SLUG), get_the_title($post->ID));
@@ -379,7 +428,8 @@ class PrivatePostFeedback {
             $message,
             get_permalink($post->ID)
         );
-        wp_mail([$author_email, $admin_email], $subject, $body);
+
+        wp_mail($recipients, $subject, $body);
         return true;
     }
 
@@ -568,7 +618,7 @@ class PrivatePostFeedback {
      */
     public function handle_delete_feedback() {
         if (!current_user_can('manage_options') || !isset($_GET['id']) || !check_admin_referer('delete_private_feedback_' . $_GET['id'])) {
-            wp_die(__('Unauthorized'), '', 403);
+            wp_die('Unauthorized', '', 403);
         }
         global $wpdb;
         $id = intval($_GET['id']);

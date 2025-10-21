@@ -18,6 +18,8 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'private-post-feedback.php';
 delete_option(PrivatePostFeedback::OPTION_POST_TYPES_FEEDBACK);
 delete_option(PrivatePostFeedback::OPTION_POST_TYPES_RATING);
 delete_option(PrivatePostFeedback::OPTION_MAX_RATING);
+delete_option(PrivatePostFeedback::OPTION_NOTIFY_ADMIN);
+delete_option(PrivatePostFeedback::OPTION_NOTIFY_AUTHOR);
 
 // Remove post meta added by the plugin.
 $meta_keys = [PrivatePostFeedback::META_KEY_COUNT, PrivatePostFeedback::META_KEY_SUM];

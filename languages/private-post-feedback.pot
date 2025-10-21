@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Private Post Feedback 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/private-post-feedback\n"
-"POT-Creation-Date: 2025-10-20 16:48+0200\n"
+"POT-Creation-Date: 2025-10-21 11:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,61 +18,69 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: private-post-feedback.php:147 private-post-feedback.php:180
-msgid "Private Post Feedback Settings"
-msgstr ""
-
-#: private-post-feedback.php:148
-msgid "Private Post Feedback"
-msgstr ""
-
-#: private-post-feedback.php:186
-msgid "Check all post types where the Private Post Feedback form should appear:"
-msgstr ""
-
-#: private-post-feedback.php:191
-msgid "Check all post types where the star rating should appear:"
-msgstr ""
-
-#: private-post-feedback.php:193
-msgid "Number of stars for rating:"
-msgstr ""
-
-#: private-post-feedback.php:261
+#: ajax-rating.php:30
 msgid "Thank you for your rating!"
 msgstr ""
 
-#: private-post-feedback.php:293
+#: ajax-rating.php:38
 msgid "Thank you for your feedback!"
 msgstr ""
 
-#: private-post-feedback.php:298
+#: private-post-feedback.php:161 private-post-feedback.php:210
+msgid "Private Post Feedback Settings"
+msgstr ""
+
+#: private-post-feedback.php:162
+msgid "Private Post Feedback"
+msgstr ""
+
+#: private-post-feedback.php:216
+msgid "Check all post types where the Private Post Feedback form should appear:"
+msgstr ""
+
+#: private-post-feedback.php:221
+msgid "Notify post author by email when new feedback is received."
+msgstr ""
+
+#: private-post-feedback.php:226
+msgid "Notify site admin by email when new feedback is received."
+msgstr ""
+
+#: private-post-feedback.php:231
+msgid "Check all post types where the star rating should appear:"
+msgstr ""
+
+#: private-post-feedback.php:233
+msgid "Number of stars for rating:"
+msgstr ""
+
+#: private-post-feedback.php:333
 msgid "Leave Feedback"
 msgstr ""
 
-#: private-post-feedback.php:302
+#: private-post-feedback.php:337
 msgid "Your private feedback for the author:"
 msgstr ""
 
-#: private-post-feedback.php:306
+#: private-post-feedback.php:342
 msgid "Send Feedback"
 msgstr ""
 
-#: private-post-feedback.php:334
+#: private-post-feedback.php:370
 #, php-format
 msgid "Average rating: %.2f (%d ratings)"
 msgstr ""
 
-#: private-post-feedback.php:339
+#: private-post-feedback.php:375
 msgid "No ratings yet"
 msgstr ""
 
-#: private-post-feedback.php:373
+#: private-post-feedback.php:424
 #, php-format
 msgid "New private feedback on: %s"
 msgstr ""
 
-#: private-post-feedback.php:375
+#: private-post-feedback.php:426
 #, php-format
 msgid ""
 "You have received new private feedback on your post \"%s\":\n"
@@ -82,26 +90,26 @@ msgid ""
 "Sent from: %s"
 msgstr ""
 
-#: private-post-feedback.php:502
+#: private-post-feedback.php:555
 msgid "Private Feedback"
 msgstr ""
 
-#: private-post-feedback.php:503 private-post-feedback.php:527
+#: private-post-feedback.php:556 private-post-feedback.php:580
 msgid "Feedback"
 msgstr ""
 
-#: private-post-feedback.php:520
+#: private-post-feedback.php:573
 msgid "Private Feedback Entries"
 msgstr ""
 
-#: private-post-feedback.php:528
+#: private-post-feedback.php:581
 msgid "User IP"
 msgstr ""
 
-#: private-post-feedback.php:546
-msgid "No feedback entries found."
+#: private-post-feedback.php:603
+msgid "Are you sure you want to delete this feedback?"
 msgstr ""
 
-#: private-post-feedback.php:553
-msgid "Are you sure you want to delete this feedback?"
+#: private-post-feedback.php:610
+msgid "No feedback entries found."
 msgstr ""
