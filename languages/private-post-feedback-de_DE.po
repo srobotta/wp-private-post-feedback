@@ -1,24 +1,24 @@
 # Copyright (C) 2025 Stephan Robotta <stephan.robotta@bfh.ch>
 # This file is distributed under the same license as the Private Post Feedback plugin.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Private Post Feedback 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/private-post-"
 "feedback\n"
 "POT-Creation-Date: 2025-10-21 11:24+0200\n"
-"PO-Revision-Date: 2025-10-21 11:31+0200\n"
+"PO-Revision-Date: 2025-10-27 09:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.4\n"
 "X-Domain: private-post-feedback\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;translate_nooped_plural\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;"
+"esc_attr_x;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;"
+"translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: ajax-rating.php:30
@@ -44,7 +44,7 @@ msgstr "Wähle alle Posttypen aus, wo das Feedbackformular erscheinen soll:"
 
 #: private-post-feedback.php:221
 msgid "Notify post author by email when new feedback is received."
-msgstr "E-Mail Benachrichtigung an Autor wenn Feedback gesendet wurde."
+msgstr "E-Mail Benachrichtigung an Autor*in wenn Feedback gesendet wurde."
 
 #: private-post-feedback.php:226
 msgid "Notify site admin by email when new feedback is received."
@@ -64,7 +64,7 @@ msgstr "Feedback senden"
 
 #: private-post-feedback.php:337
 msgid "Your private feedback for the author:"
-msgstr "Persönliches Feedback an den Autor:"
+msgstr "Persönliches Feedback an die/den Autor*in:"
 
 #: private-post-feedback.php:342
 msgid "Send Feedback"
